@@ -106,3 +106,65 @@ git shortlog -sn --no-merges --since="3 months ago" | wc -l
 ```
 
 Compare this count against the total from 2b.
+
+## Cross-Referencing
+
+After collecting all Phase 2 results, perform these cross-references before presenting the report:
+
+1. **High-Risk Files**: Intersect code hotspots (2a) with bug magnets (2c). Files appearing in both lists are highest-risk.
+2. **Risk Ownership**: For each high-risk file, run `git shortlog -sn -- <file>` to identify the primary owner.
+3. **Bus Factor Risk**: If active contributors (2g) are less than 30% of total contributors (2b), flag this as a bus factor concern.
+4. **Momentum Trend**: Analyze the monthly commit counts (2d):
+   - Compare the average of the last 3 months to the average of the 3 months before that.
+   - Rising: last 3 months average > prior 3 months average by 20%+
+   - Declining: last 3 months average < prior 3 months average by 20%+
+   - Erratic: month-over-month variance exceeds 50%
+   - Stable: otherwise
+
+## Report Template
+
+Present the report in the terminal using this structure:
+
+```
+═══ Codebase Recon Report ═══
+
+Repo Vitals
+  Age: [first commit] to [latest commit] | Commits: N | Branches: N | Analysis window: WINDOW
+
+1. Code Hotspots (most-changed files)
+   [ranked list: count  filepath]
+
+2. Bug Magnets (files with fix/bug/broken commits)
+   [ranked list: count  filepath]
+
+3. High-Risk Files (appear in BOTH hotspots AND bug magnets)
+   [list with: filepath — hotspot rank #X, bug magnet rank #Y, primary owner: NAME]
+   If none overlap, state: "No files appear in both lists — good sign."
+
+4. Bus Factor
+   [top 10 contributors: count  name]
+   Active (last 3 months): X of Y total contributors
+   [If active < 30% of total: "Warning: low active contributor ratio — knowledge concentration risk"]
+
+5. Team Momentum
+   [monthly commit counts, most recent 12 months or all if fewer]
+   Trend: [rising / stable / declining / erratic]
+
+6. Firefighting Frequency
+   [list of revert/hotfix/emergency commits, or "None found"]
+   Rate: N emergency commits out of M total in window (X%)
+
+7. Recently Added Files
+   [ranked list: count  filepath]
+
+8. Recommendations
+   - Start reading: [top 3 high-risk files, or top 3 hotspots if no high-risk files]
+   - Talk to: [primary owner of the #1 high-risk or hotspot file]
+   - Watch out: [any trend warnings — declining momentum, low bus factor, high firefighting rate]
+```
+
+After printing the report, ask:
+
+> "Want me to save this report to a markdown file? (e.g., `docs/codebase-recon-report.md`)"
+
+If yes, write the same content as a markdown file. Do not commit — let the user decide.
