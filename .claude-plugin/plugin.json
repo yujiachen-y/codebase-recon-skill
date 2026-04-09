@@ -1,0 +1,20 @@
+{
+  "name": "codebase-recon",
+  "version": "1.0.0",
+  "description": "Analyze git history to understand a codebase before reading any code. Reveals hotspots, risk areas, team structure, and development momentum.",
+  "author": {
+    "name": "Jiachen Yu",
+    "url": "https://github.com/yujiachen-y"
+  },
+  "repository": "https://github.com/yujiachen-y/codebase-recon-skill",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "codebase",
+    "recon",
+    "onboarding",
+    "code-health",
+    "bus-factor",
+    "hotspots"
+  ]
+}

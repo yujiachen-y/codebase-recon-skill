@@ -1,0 +1,15 @@
+{
+  "name": "codebase-recon-skill",
+  "owner": {
+    "name": "Jiachen Yu",
+    "url": "https://github.com/yujiachen-y"
+  },
+  "plugins": [
+    {
+      "name": "codebase-recon",
+      "source": "./",
+      "description": "Analyze git history to understand a codebase before reading any code",
+      "version": "1.0.0"
+    }
+  ]
+}
