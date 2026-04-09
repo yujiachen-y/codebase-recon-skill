@@ -44,3 +44,65 @@ Print the Repo Vitals line immediately:
 ```
 Repo Vitals: Age: [FIRST_COMMIT to LATEST_COMMIT] | Commits: [COMMITS] | Branches: [BRANCHES] | Analysis window: [WINDOW or "all time"]
 ```
+
+## Phase 2: Parallel Analysis
+
+Run all 7 commands in parallel (they are independent). Substitute `WINDOW` and `N` from Phase 1. For small repos, omit `--since` flags entirely.
+
+### 2a. Code Hotspots
+
+Most-changed files in the analysis window:
+
+```sh
+git log --format=format: --name-only --since="WINDOW" | sort | uniq -c | sort -nr | head -N
+```
+
+### 2b. Bus Factor
+
+All-time contributor ranking by commit count:
+
+```sh
+git shortlog -sn --no-merges
+```
+
+### 2c. Bug Magnets
+
+Files most associated with bug-fix commits:
+
+```sh
+git log -i -E --grep="fix|bug|broken" --name-only --format='' --since="WINDOW" | sort | uniq -c | sort -nr | head -N
+```
+
+### 2d. Team Momentum
+
+Commit frequency by month (all time):
+
+```sh
+git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c
+```
+
+### 2e. Firefighting Frequency
+
+Emergency/revert commits in the analysis window:
+
+```sh
+git log --oneline --since="WINDOW" | grep -iE 'revert|hotfix|emergency|rollback'
+```
+
+### 2f. Recently Added Files
+
+New files added in the analysis window:
+
+```sh
+git log --diff-filter=A --since="WINDOW" --name-only --format='' | sort | uniq -c | sort -nr | head -N
+```
+
+### 2g. Active vs Total Contributors
+
+Count of contributors active in the last 3 months (fixed window — measures "who's here now"):
+
+```sh
+git shortlog -sn --no-merges --since="3 months ago" | wc -l
+```
+
+Compare this count against the total from 2b.
