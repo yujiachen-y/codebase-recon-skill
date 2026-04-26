@@ -12,7 +12,7 @@
       "name": "codebase-recon",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/codebase-recon"
       },
       "policy": {
         "installation": "AVAILABLE",
