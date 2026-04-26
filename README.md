@@ -22,6 +22,14 @@ Works with Claude Code, Cline, Cursor, GitHub Copilot, Gemini CLI, and any agent
 
 Then install the plugin from the marketplace browser via `/plugin`.
 
+### Via Codex plugin system
+
+```sh
+codex plugin marketplace add yujiachen-y/codebase-recon-skill
+```
+
+Then run `/plugins` in Codex, choose the `Codebase Recon` marketplace, and install `codebase-recon`.
+
 ## Usage
 
 In your coding agent, invoke:
